@@ -18,7 +18,7 @@ public class DefaultCompiler implements BlockCompiler {
 
             while (newState.currentIndex < newState.blocks.size()) {
                 var childBlock = newState.blocks.get(newState.currentIndex);
-                var blockOutput = compileState.compilerInstance.compileBlock(childBlock, newState).stream().map(line -> "  " + line).toList();
+                var blockOutput = compileState.compilerInstance.compileBlock(childBlock, newState).stream().map(line -> " ".repeat(SPACES_PER_SCOPE) + line).toList();
                 lines.addAll(blockOutput);
             }
 
