@@ -21,7 +21,7 @@ public class BlockCompilers {
             if(block.code() == null)
                 return false;
 
-            var pattern = Pattern.compile("[^'\".]+=");
+            var pattern = Pattern.compile("[^'\".-]+=");
             var matcher = pattern.matcher(block.code());
 
             return matcher.find() && matcher.start() == 0;
