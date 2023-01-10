@@ -16,7 +16,7 @@ public record ShadowCompiler(BlockParser blockParser) {
     }
 
     public String compile(List<String> input) {
-        var rootBlock = blockParser.parseBlocks(input);
+        var rootBlock = this.blockParser.parseBlocks(input);
         var rootState = CompileState.withBlocks(rootBlock.block(), this);
         rootState.outputLines.addAll(this.compileBlock(rootBlock, rootState));
 

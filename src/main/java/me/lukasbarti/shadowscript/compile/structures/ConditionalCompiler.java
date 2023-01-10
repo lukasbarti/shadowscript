@@ -7,7 +7,10 @@ import me.lukasbarti.shadowscript.scope.Block;
 import java.util.LinkedList;
 import java.util.List;
 
-public class IfCompiler implements BlockCompiler {
+public class ConditionalCompiler implements BlockCompiler {
+
+    public static final List<String> CONDITIONAL_KEYWORDS = List.of("if", "elseif", "else", "while");
+
     @Override
     public List<String> compile(Block block, CompileState compileState) {
         var lines = new LinkedList<String>();
@@ -25,6 +28,11 @@ public class IfCompiler implements BlockCompiler {
                 lines.add(block.code());
                 lines.addAll(compileState.compilerInstance.compileBlock(nextBlock, compileState).stream().map(line -> "  " + line).toList());
                 lines.add("end");
+            case "while":
+                lines.add(block.code() + " do");
+                lines.addAll(compileState.compilerInstance.compileBlock(nextBlock, compileState).stream().map(line -> "  " + line).toList());
+                lines.add("end");
+                break;
             default:
                 break;
         }

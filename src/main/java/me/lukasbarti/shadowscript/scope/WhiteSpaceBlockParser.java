@@ -7,19 +7,20 @@ public record WhiteSpaceBlockParser(int spacesPerTab) implements BlockParser {
 
     @Override
     public Block parseBlocks(List<String> code) {
-        return parseBlocks(code, 0);
+        return this.parseBlocks(code, 0);
     }
 
     private Block parseBlocks(List<String> code, int previousWhiteSpaces) {
         var blocks = new ArrayList<Block>();
         for (int i = 0; i < code.size(); i++) {
             var line = code.get(i);
-            int whiteSpaces = getNumberOfWhiteSpaces(line);
+            int whiteSpaces = this.getNumberOfWhiteSpaces(line);
 
             if (whiteSpaces > previousWhiteSpaces) {
-                int lastScopeLine = findScopeEnd(code, i);
+                int lastScopeLine = this.findScopeEnd(code, i);
 
-                blocks.add(parseBlocks(code.subList(i, lastScopeLine), whiteSpaces));
+                blocks.add(this.parseBlocks(code.subList(i, lastScopeLine), whiteSpaces));
+                i = lastScopeLine - 1;
             } else {
                 blocks.add(new Block(null, line.trim()));
             }
@@ -28,7 +29,7 @@ public record WhiteSpaceBlockParser(int spacesPerTab) implements BlockParser {
     }
 
     private int findScopeEnd(List<String> lines, int startIndex) {
-        var startWhiteSpaces = getNumberOfWhiteSpaces(lines.get(startIndex));
+        var startWhiteSpaces = this.getNumberOfWhiteSpaces(lines.get(startIndex));
 
         while (true) {
             startIndex++;
@@ -36,8 +37,9 @@ public record WhiteSpaceBlockParser(int spacesPerTab) implements BlockParser {
             if (startIndex >= lines.size())
                 return lines.size();
 
-            if (getNumberOfWhiteSpaces(lines.get(startIndex)) < startWhiteSpaces)
+            if (this.getNumberOfWhiteSpaces(lines.get(startIndex)) < startWhiteSpaces) {
                 return startIndex;
+            }
         }
     }
 
@@ -49,7 +51,7 @@ public record WhiteSpaceBlockParser(int spacesPerTab) implements BlockParser {
                     spaces++;
                     break;
                 case '\t':
-                    spaces += spacesPerTab;
+                    spaces += this.spacesPerTab;
                     break;
                 default:
                     return spaces;

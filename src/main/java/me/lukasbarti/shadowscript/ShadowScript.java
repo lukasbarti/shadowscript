@@ -53,7 +53,7 @@ public class ShadowScript {
             if (childBlock.block() == null)
                 System.out.println("\t".repeat(tabs) + childBlock.code());
             else
-                printScope(childBlock, tabs + 1);
+                ShadowScript.printScope(childBlock, tabs + 1);
         });
     }
 }
